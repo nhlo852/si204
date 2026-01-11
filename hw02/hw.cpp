@@ -7,7 +7,7 @@ int main()
   int feet1, feet2;
   int inches1, inches2;
   char junk;
-  cout << "Enter two lengths in feet and inches (larger first!)";
+  cout << "Enter two lengths in feet and inches (larger first!)"<<endl;
   cin >> feet1 >> junk;
   cin >> inches1 >> junk >> junk;
   cin >> feet2 >> junk; 
@@ -23,7 +23,7 @@ int main()
   int finalInches = totalInches3%12;
 
   
-  cout << "Difference is "<< finalFeet <<"' "<<finalInches<<"''";
+  cout << "Difference is "<< finalFeet <<"' "<<finalInches<<"''"<<endl;
   
   
   return 0;
