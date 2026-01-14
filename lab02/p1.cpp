@@ -16,11 +16,8 @@ int main()
   int digit2 = (number / 100) % 10;  
   int digit1 = (number / 1000) % 10; 
   
-  digit1 = digit1*8;
-  digit2 = digit2*4;
-  digit3 = digit3*2;
   
-  int finalSum = digit1 + digit2 + digit3 + digit4;
-  cout << "In decimal " << number << " is " << finalSum << endl;
+  int finalSum = digit1*8 + digit2*4 + digit3*2 + digit4;
+  cout << "In decimal " << digit1 << digit2 << digit3 << digit4 << " = " << finalSum << endl;
   return 0;
 }
