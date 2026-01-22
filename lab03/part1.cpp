@@ -32,7 +32,7 @@ int main()
   if (y2 > maxY) maxY = y2;
   if (y3 > maxY) maxY = y3;
 
-  // Print Bounding Box points starting from Bottom-Left
+  //Print box points starting from Bottom-Left
   cout << minX << " " << minY << endl; 
   cout << minX << " " << maxY << endl; 
   cout << maxX << " " << maxY << endl; 

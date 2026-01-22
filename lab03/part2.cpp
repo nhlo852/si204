@@ -1,5 +1,5 @@
 //Nathan Lo m283852
-//Lab03 Part 2
+//Lab03 Part 2: Add two Binary/Decimal Numbers and return a decimal if over 16 and binary if under
 
 
 #include <iostream>
