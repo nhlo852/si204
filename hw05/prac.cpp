@@ -12,11 +12,13 @@ int main()
   string shape;
   cin >> shape;
   
+  //Shape is Circle
   if ((shape == "Circle") or (shape == "circle")) {
     cin >> l1;
     cout << "Area equals " << 3.14*l1*l1 << endl;  
   }
   
+  //Shape is Triangle
   if ((shape == "Triangle") or (shape == "triangle")) {
     cin >> l1 >> l2;
     cout << "Area equals " << 0.5*l1*l2 << endl;

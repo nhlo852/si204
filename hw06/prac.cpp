@@ -17,7 +17,7 @@ int main()
   }
   //Not Letter
   else {
-    cout << "Not a letter" <<endl;
+    cout << "Not a Letter" <<endl;
   }
   return 0;
 }
