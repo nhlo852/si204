@@ -1,5 +1,5 @@
 // Nathan Lo m283852
-// Lab04 Part 1
+// Lab04 Part 2
 // Average of Temps
 
 #include <iostream>
@@ -13,7 +13,7 @@ int main() {
   cin >> filename;
 
   ifstream fin(filename);
-  if (!fin) { //had to lowk search this part up
+  if (!fin) { 
     cout << "Could not open file '" << filename << "'" << endl;
     return 1;
 }
@@ -26,11 +26,11 @@ int main() {
   // Trackers 
   double sum = 0;
   int count = 0;
-  int minDate;
-  int maxDate; 
+  int minDate, minMonth, minYear;
+  int maxDate, maxMonth, maxYear; 
   double minTemp, maxTemp;
 
-  fin >> h1 >> h2;
+  fin >> h1 >> h2; //swallow time and temp header
 
   // while the loop reads the pattern
   while (fin >> year >> d1 >> month >> d2 >> date >> hour >> c1 >> min >> c2 >> sec >> temp) {
@@ -42,26 +42,46 @@ int main() {
       maxTemp = fahr;
       minDate = date;
       maxDate = date;
+      minMonth = month;
+      minYear = year;
+      maxMonth = month;
+      maxYear = year;
+
     } else {
       // Less than
       if (fahr < minTemp) {
         minTemp = fahr;
         minDate = date;
+        minMonth = month;
+        minYear = year;
       }
       // Greater than
       if (fahr > maxTemp) {
         maxTemp = fahr;
         maxDate = date;
+        maxMonth = month;
+        maxYear = year;
       }
     } 
   }
 
   cout << "file: " << filename << endl;
+
+  //Extra 0's case if under 10. Prolly more efficient way to do this but idk
+  char e1, e2, e3, e4; // extra zeroes
+  if (minMonth < 10) 
+    e1 = '0';
+  if (minDate < 10) 
+    e2 = '0';
+  if (maxMonth < 10) 
+    e3 = '0';
+  if (maxDate < 10) 
+    e4 = '0';
   
-  if (count > 0) { //if only file opens
+  if (count > 0) { //only if file opens
     cout << "ave: " << sum / count << endl;
-    cout << "min: " << minTemp << " on " << minDate << endl;
-    cout << "max: " << maxTemp << " on " << maxDate << endl;
+    cout << "min: " << minTemp << " on " << minYear << "-" << e1 << minMonth << "-" << e2 << minDate << endl;
+    cout << "max: " << maxTemp << " on " << maxYear << "-" << e3 << maxMonth << "-" << e4 << maxDate << endl;
   }
 
   return 0;
