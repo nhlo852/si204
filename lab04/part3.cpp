@@ -1,6 +1,6 @@
 // Nathan Lo m283852
-// Lab04 Part 2
-// Average of Temps
+// Lab04 Part 3
+// Add a fout :(
 
 #include <iostream>
 #include <fstream>
@@ -9,14 +9,16 @@
 using namespace std;
 
 int main() {
-  string filename;
-  cin >> filename;
+  string filename, outfile;
+  cin >> filename >> outfile;
 
   ifstream fin(filename);
+  ofstream fout(outfile);
   if (!fin) { 
     cout << "Could not open file '" << filename << "'" << endl;
     return 1;
 }
+  
 
   // Variables for the header and data
   string h1, h2;
@@ -31,10 +33,21 @@ int main() {
   double minTemp, maxTemp;
 
   fin >> h1 >> h2; //swallow time and temp header
+  fout << "day" << '\t' << "hour" << '\t' << "temp" << endl;
 
   // while the loop reads the pattern
   while (fin >> year >> d1 >> month >> d2 >> date >> hour >> c1 >> min >> c2 >> sec >> temp) {
     double fahr = (1.8 * temp) + 32.0;
+    //ts the fout
+    string e1 = "", e2 = "";
+    if (month < 10) 
+        e1 = "0";
+    if (date < 10) 
+        e2 = "0";
+    hour = hour + 1;
+    fout << year << "-" << e1 << month << "-" << e2 << date << " " << hour << '\t' << fahr << endl; // fout 
+    //fout ends 
+
     sum = sum + fahr;
     count = count + 1;
     if (count == 1) {
@@ -82,6 +95,7 @@ int main() {
     cout << "ave: " << sum / count << endl;
     cout << "min: " << minTemp << " on " << minYear << "-" << e1 << minMonth << "-" << e2 << minDate << endl;
     cout << "max: " << maxTemp << " on " << maxYear << "-" << e3 << maxMonth << "-" << e4 << maxDate << endl;
+    cout << "output in: " << outfile << endl;
   }
 
   return 0;
