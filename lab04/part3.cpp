@@ -45,7 +45,7 @@ int main() {
     if (date < 10) 
         e2 = "0";
     hour = hour + 1;
-    fout << year << "-" << e1 << month << "-" << e2 << date << " " << hour << '\t' << fahr << endl; // fout 
+    fout << year << "-" << e1 << month << "-" << e2 << date << '\t' << hour << '\t' << fahr << endl; // fout 
     //fout ends 
 
     sum = sum + fahr;
