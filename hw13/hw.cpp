@@ -1,52 +1,41 @@
 /******************************************************************************
  * Author:      Nathan Lo
  * Alpha:       m283852
- * Title:       
- * Description: 
- * Date:        2026-02-02
+ * Title:       Hollow Rectangle with Offset
+ * Description: Draws a hollow rectangle using height, width, and offset.
+ * Date:        2026-02-07
  ******************************************************************************/
 #include <iostream>
 using namespace std;
 
-int main()
-{
-  int height, width, offset;          // Initialize Inputs                                             
-  cout << "Enter height (greater than 2): ";
-  cin >> height;
-  cout << "Enter width (greater than 2): ";
-  cin >> width;
-  cout << "Enter offset: ";
-  cin >> offset;                                               // leading spaces for top row
-  
-  
-  for (int i = 0; i < height; i++) {         // loop for each row
-    int spaces = 0;
-    int spaces1 = 0;
-    while (spaces < offset) {
-        cout << " ";
+int main() {
+    int height, width, offset;
+    cout << "Enter height (greater than 2): ";
+    cin >> height;
+    cout << "Enter width  (greater than 2): ";
+    cin >> width;
+    cout << "Enter offset: ";
+    cin >> offset;
+
+    for (int i = 0; i < height; i++) {
+        for (int s = 0; s < offset; s++) { // Print the offset spaces for every row
+            cout << " ";
+        }
+        if (i == 0 || i == height - 1) { // Decide what to print based on the row number
+            for (int j = 0; j < width; j++) {  // Print full width of stars
+                cout << "*";
+            }
+        } 
+        else { // Print star, then spaces, then star
+            cout << "*";
+            for (int j = 0; j < width - 2; j++) {
+                cout << " ";
+            }
+            cout << "*";
+        }
+
+        cout << endl;
     }
-    for (int j = 2; j < width; j++) {
-        cout << "*";
-        while (spaces)
 
-
-
-
-    }      
-    while (count1 < spaces) {            // print leading spaces
-        cout << " ";
-        count1++;
-    }
-    spaces = spaces - 1;                 // decrease spaces for next row
-
-    while (count2 < stars) {             // print stars for current row
-        cout << "*";
-        count2++;
-    } 
-    stars = stars + 2;                   // increase stars for next row
-    
-    cout << endl;                       
-  }
-  
-  return 0;                              
+    return 0;
 }
