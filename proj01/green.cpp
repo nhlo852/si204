@@ -13,75 +13,65 @@
 using namespace std;
 
 int main() {
-  string fgName, bgName, outName;
+    string fgName, bgName, outName;
 
-  // Get filenames
-  cout << "Foreground file: ";
-  cin >> fgName;
-  cout << "Background file: ";
-  cin >> bgName;
-  cout << "Output file: ";
-  cin >> outName;
+    // Get file names from user
+    cout << "Foreground file: "; cin >> fgName;
+    cout << "Background file: "; cin >> bgName;
+    cout << "Output file: ";     cin >> outName;
 
-  // Open input files
-  ifstream ffin(fgName);
-  ifstream bfin(bgName);
-  if (!ffin || !bfin) {
-    cout << "Error: Input file not found" << endl;
-    return 1;
-  }
+    // Open input files
+    ifstream ffin(fgName);
+    ifstream bfin(bgName);
 
-  // Read foreground header
-  string p3;
-  int fW, fH, fMax;
-  ffin >> p3 >> fW >> fH >> fMax;
-
-  // Read background header
-  int bW, bH, bMax;
-  bfin >> p3 >> bW >> bH >> bMax;
-
-  // Check if sizes match
-  if (fW != bW || fH != bH) {
-    cout << "Error: Images have different sizes" << endl;
-    return 1;
-  }
-
-  // Open output file and write header
-  ofstream fout(outName);
-  fout << "P3" << endl;
-  fout << fW << " " << fH << endl;
-  fout << fMax << endl;
-
-  // Process every pixel
-  int fr, fg, fb; // Foreground RGB
-  int br, bg, bb; // Background RGB
-
-  
-
-  for (int i = 0; i < fW * fH; i++) {
-    ffin >> fr >> fg >> fb;
-    bfin >> br >> bg >> bb;
-
-    // Use the specific Project 1 threshold: 
-    // Green must be greater than the SUM of Red and Blue
-    if (fg > (fr + fb)) {
-      // It's a green screen pixel so use background
-      fout << br << " " << bg << " " << bb << " ";
-    } else {
-      // It's a subject pixel so use foreground
-      fout << fr << " " << fg << " " << fb << " ";
+    // Check if files exist
+    if (!ffin || !bfin) {
+        cout << "Error: Input file not found" << endl;
+        return 1;
     }
 
-    if ((i + 1) % fW == 0) {
-      fout << endl;
+    // Read PPM headers
+    string p3;
+    int fw, fh, fmax, bw, bh, bmax;
+    ffin >> p3 >> fw >> fh >> fmax;
+    bfin >> p3 >> bw >> bh >> bmax;
+
+    // Check if images are the same size
+    if (fw != bw || fh != bh) {
+        cout << "Error: Images have different sizes" << endl;
+        return 1;
     }
-  }
 
-  cout << "Image saved to " << outName << endl;
+    // Prepare output file and write header
+    ofstream fout(outName);
+    fout << "P3" << endl << bw << " " << bh << endl << bmax << endl;
 
-  ffin.close();
-  bfin.close();
-  fout.close();
+    // Loop through every pixel
+    for (int r = 0; r < bh; r++) {
+        for (int c = 0; c < bw; c++) {
+            int fr, fg, fb, br, bg, bb;
+            // Read RGB values
+            ffin >> fr >> fg >> fb;
+            bfin >> br >> bg >> bb;
 
-  return 0;
+            // Only replace if the pixel is EXACTLY Pure Green (0 255 0)
+            if (fr == 0 && fg == 255 && fb == 0) {
+                fout << br << " " << bg << " " << bb;
+            } else {
+                fout << fr << " " << fg << " " << fb;
+            }
+
+            // Only print space if NOT the last column
+            if (c < bw - 1) fout << " ";
+        }
+        fout << endl; // Newline at end of row
+    }
+
+    cout << "Image saved to " << outName << endl;
+    
+    // Close all files
+    ffin.close();
+    bfin.close();
+    fout.close();
+    return 0;
 }
