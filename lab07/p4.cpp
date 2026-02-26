@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author:      Nathan Lo
  * Alpha:       m283852
- * Title:       Lab 7 Part 3
+ * Title:       Lab 7 Part 4
  * Description: SWARE
  * Date:        2026-02-24
  ******************************************************************************/
@@ -84,21 +84,43 @@ int* read(int n) {
 
 // Function to print out array with ABCD at bototm
 void print(int* A, int n) {
+    int max = A[0];
+    int max1 = A[0];
+
     char letter = 65;
-    for (int i = 0; i < n; i++) {
-        cout << " " << A[i];
+    for (int i = 1; i < n; i++) {
+        if (A[i] > max) {
+            max = A[i];
+        }
     }
     cout << endl;
+
+    for (int j = 0; j < max1; j++) {
+        cout << " ";
+        for (int k = 0; k < n; k++) {
+            if (A[k] >= max) {
+                cout << "#" << " ";
+            }
+            else if (A[k] < max) {
+                cout << "  ";
+            }
+        }
+        cout << endl;
+        max--;
+    }
+    
+
     for (int j = 0; j < (2*n)+1; j++) {
         cout << "-";
     }
     cout << endl;
    
-    for (int k = 0; k < n; k++) {
+    for (int m = 0; m < n; m++) {
         cout << " " << letter;
         letter++;
     }
     cout << endl;
+    
 }
 
 bool isInOrder(int* A, int n) {
