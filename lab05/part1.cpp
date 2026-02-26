@@ -22,7 +22,7 @@ int main() {
     
   string junk1, junk2;
   int width;
-  // Get the width first so we can use it in the prompt
+  // Get the width first 
   fin >> junk1 >> junk2 >> width; 
 
   int pos;
@@ -38,21 +38,21 @@ int main() {
   int currentStep = 0;
   bool death = false;
 
-  // Outer loop: Read the starting '@' of each row
+  // Outer loop: as long as there are chars to check
   while (fin >> cell) { 
     currentStep++;
 
     // Inner loop: Check every column in the row
-    for (int i = 1; i <= width; i++) {
+    for (int i = 0; i < width; i++) {
       fin >> cell; 
       if (i == pos && cell == 'X') {
         death = true;
       }
     }
 
-    fin >> cell;
+    fin >> cell; // Eat ending @
 
-    if (death) { //Exit if death
+    if (death) { // Exit if death
       break;
     }
   }

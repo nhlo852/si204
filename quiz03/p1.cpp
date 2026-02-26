@@ -31,12 +31,12 @@ int main() {
         if (num1 > num2) {
             tot++;
         }
-        if (highScore > num1) {
+        if (num1 > highScore) {
             highScore = num1;
         }
     }
     cout << "Navy won " << tot << " times" << endl;
-    cout << "The highest Navy score is " << highscore << endl;
+    cout << "The highest Navy score is " << highScore << endl;
     fin.close();
 
     return 0;
