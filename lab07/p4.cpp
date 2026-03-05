@@ -84,24 +84,23 @@ int* read(int n) {
 
 // Function to print out array with ABCD at bototm
 void print(int* A, int n) {
-    int max = A[0];
-    int max1 = A[0];
+    int max = 0;
 
     char letter = 65;
-    for (int i = 1; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         if (A[i] > max) {
             max = A[i];
         }
     }
     cout << endl;
 
-    for (int j = 0; j < max1; j++) {
+    for (int j = max; j >= 1; j--) {
         cout << " ";
         for (int k = 0; k < n; k++) {
-            if (A[k] >= max) {
+            if (A[k] >= j) {
                 cout << "#" << " ";
             }
-            else if (A[k] < max) {
+            else if (A[k] < j) {
                 cout << "  ";
             }
         }

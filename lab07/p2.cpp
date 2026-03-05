@@ -20,7 +20,7 @@ int main() {
   int N, count = 0;
   char pos1, pos2;
   cout << "Welcome to SWARE!" << endl;
-  cout << "board> ";
+  cout << "board> " << endl;
   cin >> c >> c >> N >> c;
 
   int* A = read(N);
@@ -41,6 +41,7 @@ int main() {
         cout << "Unknown move " << command << endl; 
     }
   }
+  print(A, N);
   cout << count*3 << " points!" << "(" << count << " moves)"<< endl;;
 
     
