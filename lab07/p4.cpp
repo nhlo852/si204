@@ -88,7 +88,7 @@ void print(int* A, int n) {
     int max1 = A[0];
 
     char letter = 65;
-    for (int i = 1; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         if (A[i] > max) {
             max = A[i];
         }
@@ -108,7 +108,7 @@ void print(int* A, int n) {
         cout << endl;
         max--;
     }
-    
+
 
     for (int j = 0; j < (2*n)+1; j++) {
         cout << "-";
