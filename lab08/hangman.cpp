@@ -13,7 +13,6 @@
 
 using namespace std;
 
-// Helper Function Prototypes
 void printSpaced(string s);
 string mkShadowString(string s);
 string uncover(string original, string covered, char c);

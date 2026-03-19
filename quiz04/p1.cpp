@@ -1,38 +1,40 @@
-/******************************************************************************
- * Author:      Nathan Lo
- * Alpha:       m283852
- * Title:       Quiz 4
- * Description: Print average from list
- * Date:        2026-02-28
- ******************************************************************************/
-
 #include <iostream>
-#include <string>
 #include <fstream>
-
 using namespace std;
 
-int avgList(string filename);
+// ADD PROTOTYPE HERE
 
-int main() {
-  string filename;
-  cin >> filename;
-  cout << avgList(filename) << endl;
 
-  return 0;
+float avg(string filename);
+
+// DO NOT TOUCH THE MAIN FUNCTION
+int main()
+{
+  cout << "Filename: ";
+  string fname;
+  cin >> fname;
+
+  cout << avg(fname) << endl;
+  return 0; 
 }
 
-int avgList(string filename) {
+// ADD DEFINITION HERE 
+
+
+float avg(string filename) {
   ifstream fin(filename);
+  float sum = 0, num = 0, input;
   if (!fin) { 
     cout << "Could not open file '" << filename << "'" << endl;
     return 1;
   }
-  int sum = 0, num = 0, input;
-  while (fin >> input) {
-    sum += input;
-    num++;
+  else {
+    while (fin >> input) {
+      sum += input;
+      num++;
+    }
   }
+  fin.close();
   return sum/num;
 
 }
