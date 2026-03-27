@@ -71,7 +71,6 @@ int main()
         }
     }
 
-    // Safely delete exactly the 610 rows we allocated
     for (int i = 0; i < 610; i++) {
         delete [] R[i];
     }
