@@ -16,12 +16,8 @@ int main()
 {
     double rating;
     int num, userID, movieId;
-<<<<<<< HEAD
-    string junk1, junk2, junk3, act = "o", prog = "huh";
-=======
     string junk1, junk2, junk3, act = "";
     
->>>>>>> 472bda79fb8cf19cdbce22699b8329ddc9471e7a
     ifstream fin("ratings.tsv");
     if (!fin) {
         cout << "Error opening file." << endl;
@@ -42,30 +38,6 @@ int main()
     fin >> junk1 >> junk2 >> junk3;
     while (fin >> userID >> movieId >> rating) {
         R[userID][movieId] = rating;
-<<<<<<< HEAD
-
-    }
-    while (cin >> act && act != "quit") {
-        double total = 0;
-        int count = 0;
-        cin >>  num;
-        if (act == "movie") {
-            for (int i = 0; i < 9724; i++) {
-                total += R[i][num]; 
-                count ++;
-            }
-            cout << total/count;
-        }
-        if (act == "user") {
-            for (int i = 0; i < 610; i++) {
-                total += R[num][i]; 
-                count ++;
-            }
-            cout << total/count;
-
-        }
-=======
->>>>>>> 472bda79fb8cf19cdbce22699b8329ddc9471e7a
     }
     fin.close();
 
@@ -99,7 +71,6 @@ int main()
         }
     }
 
-    // Safely delete exactly the 610 rows we allocated
     for (int i = 0; i < 610; i++) {
         delete [] R[i];
     }

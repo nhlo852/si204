@@ -1,0 +1,7 @@
+2 foo d
+foo is just food without the d . END
+
+5 swim swimming swims Michael Phelps
+I love swimming . Nobody swims better than Michael Phelps , though .  As much as I like to swim , I'll never do it as well as Phelps . END
+
+
