@@ -12,7 +12,6 @@
 
 using namespace std;
 
-// Define the struct before main so the program knows what a "mid" is
 struct mid {
     int alpha;
     string first, last;
@@ -60,7 +59,6 @@ int main() {
         cout << "No Mid with that alpha was found!" << endl;
     }
 
-    // Delete the array to give memory back
     delete[] A;
 
     return 0;
