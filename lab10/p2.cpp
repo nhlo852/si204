@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <unistd.h>
+#include "easycurses.h"
 
 using namespace std;
 
@@ -32,28 +34,23 @@ int main() {
     int num_frames;
     fin >> num_frames >> dummy;
 
-    cout << "Window: " << rows << " rows, " << cols << " cols\n";
+    startCurses();
+
     for (int i = 0; i < num_stars; i++) {
-        cout << "DRAW (" << stars[i].r << "," << stars[i].c << ")" << stars[i].dir << "\n";
+        drawChar('*', stars[i].r, stars[i].c);
     }
 
     for (int f = 0; f < num_frames; f++) {
-        cout << "\n=======================\n";
-        cout << "Sleep\n";
-        cout << "Setting up frame " << f << "\n";
-        
+        usleep(100000);
+
         for (int i = 0; i < num_stars; i++) {
-            cout << "ERASE (" << stars[i].r << "," << stars[i].c << ")" << stars[i].dir << "\n";
+            drawChar(' ', stars[i].r, stars[i].c);
         }
 
         for (int i = 0; i < num_stars; i++) {
             int id;
             char move;
             fin >> id >> move;
-
-            int orig_r = stars[i].r;
-            int orig_c = stars[i].c;
-            char orig_dir = stars[i].dir;
 
             if (move != 'K') {
                 stars[i].dir = move;
@@ -64,32 +61,26 @@ int main() {
             else if (stars[i].dir == 'E') stars[i].c++;
             else if (stars[i].dir == 'W') stars[i].c--;
 
-            string bounce_msg = "";
             if (stars[i].r >= rows) {
                 stars[i].r -= 2;
                 stars[i].dir = 'N';
-                bounce_msg = " BOUNCE (row >= " + to_string(rows) + ")!";
             } else if (stars[i].r < 0) {
                 stars[i].r += 2;
                 stars[i].dir = 'S';
-                bounce_msg = " BOUNCE (row < 0)!";
             } else if (stars[i].c >= cols) {
                 stars[i].c -= 2;
                 stars[i].dir = 'W';
-                bounce_msg = " BOUNCE (col >= " + to_string(cols) + ")!";
             } else if (stars[i].c < 0) {
                 stars[i].c += 2;
                 stars[i].dir = 'E';
-                bounce_msg = " BOUNCE (col < 0)!";
             }
 
-            cout << id << " (" << orig_r << "," << orig_c << ")" << orig_dir
-                 << "->" << move << bounce_msg << " DRAW ("
-                 << stars[i].r << "," << stars[i].c << ")" << stars[i].dir << "\n";
+            drawChar('*', stars[i].r, stars[i].c);
         }
-        cout << "Refresh the window now!\n";
-        cout << "=======================\n";
+        refreshWindow();
     }
+
+    endCurses();
 
     return 0;
 }
