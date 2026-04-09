@@ -5,3 +5,43 @@ foo is just food without the d . END
 I love swimming . Nobody swims better than Michael Phelps , though .  As much as I like to swim , I'll never do it as well as Phelps . END
 
 
+/******************************************************************************
+ * Author:      Nathan Lo
+ * Alpha:       m283852
+ * Title:       Quiz 6
+ * Description: 
+ * Date:        2026-02-28
+ ******************************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib>
+using namespace std;
+
+int main()
+{
+    int num;
+    string current, word;
+    cin >> num;
+    string* list = new string[num];
+    for (int i = 0; i < num; i++) {
+        cin >> current;
+        string[i] = current;
+    }
+    while (cin >> word && word != "END") {
+        for (int i = 0; i < num; i++) {
+            if (word == string[i]) {
+                for (int j = 0; j < string[i].length(); j++) {
+                    cout << "*";
+                }
+            }
+            else {
+                cout << string[i];
+            }
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
