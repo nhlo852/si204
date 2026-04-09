@@ -1,12 +1,13 @@
 /******************************************************************************
- * Author:      Nathan Lo
- * Alpha:       m283852
- * Title:       Proj 02 Part 4
+ * Author: Nathan Lo
+ * Alpha: m283852
+ * Title: Proj 02 Part 4
  * Description: Hit or Stand (Vertical Hands)
- * Date:        2026-03-28
+ * Date: 2026-03-28
  ******************************************************************************/
 
 #include <iostream>
+#include <string>
 #include <cstdlib>
 
 using namespace std;
@@ -16,6 +17,7 @@ void printDeck(int* arr, int size);
 void printTable(int* p, int pSize, int* d, int dSize);
 void initDeck(int* deck);
 void shuffleDeck(int* deck);
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize);
 
 int main() {
     int* p = new int[52];
@@ -24,69 +26,64 @@ int main() {
     
     int pSize = 0;
     int dSize = 0;
-    int deckTop = 0;   
+    int deckTop = 0;
+    int deckSize = 52;
     int seed;
     
     // Set up the deck
     initDeck(deck);
-
+    
     // Get seed and shuffle
-    cout << "Seed: "; 
+    cout << "Seed: ";
     cin >> seed;
     srand(seed);
     shuffleDeck(deck);
     
     // Show the starting deck horizontally
     printDeck(deck, 52);
-
+    
     // Initial Deal for Player, Dealer, Player, Dealer
-    p[pSize] = deck[deckTop]; pSize++; deckTop++;
-    d[dSize] = deck[deckTop]; dSize++; deckTop++;
-    p[pSize] = deck[deckTop]; pSize++; deckTop++;
-    d[dSize] = deck[deckTop]; dSize++; deckTop++;
-
+    deal(deck, &deckTop, &deckSize, p, &pSize);
+    deal(deck, &deckTop, &deckSize, d, &dSize);
+    deal(deck, &deckTop, &deckSize, p, &pSize);
+    deal(deck, &deckTop, &deckSize, d, &dSize);
+    
     // Print starting table
     cout << endl;
     printTable(p, pSize, d, dSize);
-
+    
     // Play exactly 3 rounds
     for (int round = 1; round <= 3; round++) {
         char choice;
         
-        // Player's Turn 
+        // Player's Turn
         cout << "Round " << round << " Player's turn" << endl;
         cout << "hit or stand ? [h/s] ";
         cin >> choice;
         
         // Add card if they hit
         if (choice == 'h') {
-            p[pSize] = deck[deckTop]; 
-            pSize++; 
-            deckTop++;
+            deal(deck, &deckTop, &deckSize, p, &pSize);
         }
-        
         cout << endl;
         printTable(p, pSize, d, dSize);
         
-        // Dealer's Turn 
+        // Dealer's Turn
         cout << "Round " << round << " Dealer's turn" << endl;
         cout << "hit or stand ? [h/s] ";
         cin >> choice;
         
         // Add card if they hit
         if (choice == 'h') {
-            d[dSize] = deck[deckTop]; 
-            dSize++; 
-            deckTop++;
+            deal(deck, &deckTop, &deckSize, d, &dSize);
         }
-        
         cout << endl;
         printTable(p, pSize, d, dSize);
     }
+    
     delete[] p;
     delete[] d;
     delete[] deck;
-    
     return 0;
 }
 
@@ -155,4 +152,12 @@ void printTable(int* p, int pSize, int* d, int dSize) {
         
         cout << endl;
     }
+}
+
+// Moves a card from the top of the deck to a hand
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize) {
+    hand[*handSize] = deck[*deckTop];
+    (*handSize)++;
+    (*deckTop)++;
+    (*deckSize)--;
 }

@@ -1,9 +1,9 @@
 /******************************************************************************
- * Author:      Nathan Lo
- * Alpha:       m283852
- * Title:       Proj 02 Part 3
- * Description: Hit or Stand 
- * Date:        2026-03-22
+ * Author: Nathan Lo
+ * Alpha: m283852
+ * Title: Proj 02 Part 3
+ * Description: Hit or Stand
+ * Date: 2026-03-22
  ******************************************************************************/
 
 #include <iostream>
@@ -16,6 +16,7 @@ using namespace std;
 void printHand(int* arr, int size);
 void initDeck(int* deck);
 void shuffleDeck(int* deck);
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize);
 
 int main() {
     int* p = new int[52];
@@ -24,72 +25,66 @@ int main() {
     
     int pSize = 0;
     int dSize = 0;
-    int deckTop = 0;   
+    int deckTop = 0;
+    int deckSize = 52;
     int seed;
     
     // Set up the deck
     initDeck(deck);
-
+    
     // Get seed and shuffle
-    cout << "Seed: "; 
+    cout << "Seed: ";
     cin >> seed;
     srand(seed);
     shuffleDeck(deck);
     
     // Show the starting deck
     printHand(deck, 52);
-
+    
     // Initial Deal: Player, Dealer, Player, Dealer
-    p[pSize] = deck[deckTop]; pSize++; deckTop++;
-    d[dSize] = deck[deckTop]; dSize++; deckTop++;
-    p[pSize] = deck[deckTop]; pSize++; deckTop++;
-    d[dSize] = deck[deckTop]; dSize++; deckTop++;
-
+    deal(deck, &deckTop, &deckSize, p, &pSize);
+    deal(deck, &deckTop, &deckSize, d, &dSize);
+    deal(deck, &deckTop, &deckSize, p, &pSize);
+    deal(deck, &deckTop, &deckSize, d, &dSize);
+    
     // Print starting hands
     cout << endl;
     cout << "Player: "; printHand(p, pSize);
     cout << "Dealer: "; printHand(d, dSize);
-
+    
     // Play exactly 3 rounds
     for (int round = 1; round <= 3; round++) {
         char choice;
         
-        // Player's Turn 
+        // Player's Turn
         cout << endl << "Round " << round << " Player's turn" << endl;
         cout << "hit or stand ? [h/s] ";
         cin >> choice;
         
         if (choice == 'h') {
-            p[pSize] = deck[deckTop]; 
-            pSize++; 
-            deckTop++;
+            deal(deck, &deckTop, &deckSize, p, &pSize);
         }
-        
         cout << endl;
         cout << "Player: "; printHand(p, pSize);
         cout << "Dealer: "; printHand(d, dSize);
         
-        // Dealer's Turn 
+        // Dealer's Turn
         cout << endl << "Round " << round << " Dealer's turn" << endl;
         cout << "hit or stand ? [h/s] ";
         cin >> choice;
         
         if (choice == 'h') {
-            d[dSize] = deck[deckTop]; 
-            dSize++; 
-            deckTop++;
+            deal(deck, &deckTop, &deckSize, d, &dSize);
         }
-        
         cout << endl;
         cout << "Player: "; printHand(p, pSize);
         cout << "Dealer: "; printHand(d, dSize);
     }
-
+    
     // Clean up memory
     delete[] p;
     delete[] d;
     delete[] deck;
-    
     return 0;
 }
 
@@ -124,4 +119,12 @@ void printHand(int* arr, int size) {
         }
     }
     cout << "]" << endl;
+}
+
+// Moves a card from the top of the deck to a hand
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize) {
+    hand[*handSize] = deck[*deckTop];
+    (*handSize)++;
+    (*deckTop)++;
+    (*deckSize)--;
 }

@@ -2,65 +2,66 @@
  * Author:      Nathan Lo
  * Alpha:       m283852
  * Title:       Proj 02 Part 5
- * Description: Hit or Stand (Pretty Printing)
- * Date:        2026-03-28
+ * Description: Plays 3 rounds of Hit/Stand, printing the hands vertically 
+ * in a table format using formatted card symbols (pretty print).
  ******************************************************************************/
 
 #include <iostream>
-#include <string>
 #include <cstdlib>
 
 using namespace std;
 
-// Function Prototypes
-void printTable(int* p, int pSize, int* d, int dSize);
-void printCard(int card);
+// Prototypes
 void initDeck(int* deck);
 void shuffleDeck(int* deck);
+void printCard(int card);
+void printTable(int* p, int pSize, int* d, int dSize);
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize);
 
 int main() {
+    // Allocate memory for the deck and the two hands
+    int* deck = new int[52];
     int* p = new int[52];
     int* d = new int[52];
-    int* deck = new int[52];
     
+    // Set up tracking variables
     int pSize = 0;
     int dSize = 0;
-    int deckTop = 0;   
-    int seed;
+    int deckTop = 0;
+    int deckSize = 52;
     
-    // Set up the deck
+    // Initialize the deck
     initDeck(deck);
-
-    // Get seed and shuffle
+    
+    // Get the seed and shuffle
+    int seed;
     cout << "Seed: "; 
     cin >> seed;
+    
     srand(seed);
     shuffleDeck(deck);
-
-    // Initial Deal: Player, Dealer, Player, Dealer
-    p[pSize] = deck[deckTop]; pSize++; deckTop++;
-    d[dSize] = deck[deckTop]; dSize++; deckTop++;
-    p[pSize] = deck[deckTop]; pSize++; deckTop++;
-    d[dSize] = deck[deckTop]; dSize++; deckTop++;
-
-    // Print starting table
+    
+    // Deal the initial 4 cards
+    deal(deck, &deckTop, &deckSize, p, &pSize);
+    deal(deck, &deckTop, &deckSize, d, &dSize);
+    deal(deck, &deckTop, &deckSize, p, &pSize);
+    deal(deck, &deckTop, &deckSize, d, &dSize);
+    
+    // Print the initial hands using the new pretty-print table format
     cout << endl;
     printTable(p, pSize, d, dSize);
-
-    // Play exactly 3 rounds
+    
+    // Loop for exactly 3 rounds
     for (int round = 1; round <= 3; round++) {
-        char choice;
         
         // --- Player's Turn ---
         cout << "Round " << round << " Player's turn" << endl;
-        cout << "hit or stand? [h/s] ";
+        cout << "hit or stand ? [h/s] ";
+        char choice;
         cin >> choice;
         
-        // Add card if they hit
         if (choice == 'h') {
-            p[pSize] = deck[deckTop]; 
-            pSize++; 
-            deckTop++;
+            deal(deck, &deckTop, &deckSize, p, &pSize);
         }
         
         cout << endl;
@@ -68,29 +69,30 @@ int main() {
         
         // --- Dealer's Turn ---
         cout << "Round " << round << " Dealer's turn" << endl;
-        cout << "hit or stand? [h/s] ";
+        cout << "hit or stand ? [h/s] ";
         cin >> choice;
         
-        // Add card if they hit
         if (choice == 'h') {
-            d[dSize] = deck[deckTop]; 
-            dSize++; 
-            deckTop++;
+            deal(deck, &deckTop, &deckSize, d, &dSize);
         }
         
         cout << endl;
         printTable(p, pSize, d, dSize);
     }
-
-    // Clean up memory
+    
+    // Give memory back
+    delete[] deck;
     delete[] p;
     delete[] d;
-    delete[] deck;
     
     return 0;
 }
 
-// Build the deck
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+// initDeck: Fills the deck array with 52 math integers (suit * 100 + face)
 void initDeck(int* deck) {
     int count = 0;
     for (int i = 1; i <= 4; i++) {
@@ -101,7 +103,7 @@ void initDeck(int* deck) {
     }
 }
 
-// Shuffle the deck
+// shuffleDeck: Randomizes the order of the deck by swapping indexes
 void shuffleDeck(int* deck) {
     for (int i = 0; i < 52; i++) {
         int j = rand() % 52;
@@ -111,65 +113,56 @@ void shuffleDeck(int* deck) {
     }
 }
 
-// Translate integer into formatted face value and suit
+// printCard: Decodes the integer card value and prints the face and UTF-8 suit
 void printCard(int card) {
     int suitVal = card / 100;
     int faceVal = card % 100;
 
-    // Print face value (taking exactly 2 spaces)
-    if (faceVal >= 2 && faceVal <= 9) {
-        cout << " " << faceVal;
-    } else if (faceVal == 10) {
-        cout << 10;
-    } else if (faceVal == 11) {
-        cout << " J";
-    } else if (faceVal == 12) {
-        cout << " Q";
-    } else if (faceVal == 13) {
-        cout << " K";
-    } else if (faceVal == 14) {
-        cout << " A";
-    }
+    if (faceVal >= 2 && faceVal <= 9) cout << " " << faceVal;
+    else if (faceVal == 10) cout << 10;
+    else if (faceVal == 11) cout << " J";
+    else if (faceVal == 12) cout << " Q";
+    else if (faceVal == 13) cout << " K";
+    else if (faceVal == 14) cout << " A";
 
-    // Print suit symbol
-    if (suitVal == 1) cout << "\u2663";      // Clubs
-    else if (suitVal == 2) cout << "\u2666"; // Diamonds
-    else if (suitVal == 3) cout << "\u2665"; // Hearts
-    else if (suitVal == 4) cout << "\u2660"; // Spades
+    if (suitVal == 1) cout << "\u2663";      
+    else if (suitVal == 2) cout << "\u2666"; 
+    else if (suitVal == 3) cout << "\u2665"; 
+    else if (suitVal == 4) cout << "\u2660"; 
 }
 
-// Print hands vertically in a table with pretty formatting
+// printTable: Prints the parsed card hands vertically side-by-side
 void printTable(int* p, int pSize, int* d, int dSize) {
     cout << " Player Dealer" << endl;
     
-    // Find who has more cards so we know how many rows to print
     int maxRows = pSize;
-    if (dSize > pSize) {
-        maxRows = dSize;
-    }
+    if (dSize > pSize) maxRows = dSize;
     
-    // Print row by row
     for (int i = 0; i < maxRows; i++) {
         cout << "| ";
         
-        // Print player card or 6 empty spaces to keep the pipe aligned
+        // Print Player side
         if (i < pSize) {
             printCard(p[i]);
             cout << "  ";
-        } else {
-            cout << "      ";
-        }
+        } else { cout << "      "; }
         
         cout << "| ";
         
-        // Print dealer card or 6 empty spaces for alignment
+        // Print Dealer side
         if (i < dSize) {
             printCard(d[i]);
             cout << "  |";
-        } else {
-            cout << "      |";
-        }
+        } else { cout << "      |"; }
         
         cout << endl;
     }
+}
+
+// deal: Moves a card from the deck to a hand, using pointers to update the sizes permanently
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize) {
+    hand[*handSize] = deck[*deckTop];
+    (*handSize)++;
+    (*deckTop)++;
+    (*deckSize)--;
 }

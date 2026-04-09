@@ -1,18 +1,21 @@
 /******************************************************************************
- * Author:      Nathan Lo
- * Alpha:       m283852
- * Title:       Proj 02 Part 1
+ * Author: Nathan Lo
+ * Alpha: m283852
+ * Title: Proj 02 Part 1
  * Description: Prints Deck, Deals Card, or Quits
- * Date:        2026-03-12
+ * Date: 2026-03-12
  ******************************************************************************/
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
 
 using namespace std;
 
+// Function Prototypes
 void printHand(int* arr, int size);
 void printDeck(int* deck, int startIdx, int size);
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize);
 
 int main() {
     int* p = new int[52];
@@ -22,8 +25,8 @@ int main() {
     // Variables to track sizes and the top of the deck
     int pSize = 0;
     int dSize = 0;
-    int deckTop = 0;   
-    int deckSize = 52; 
+    int deckTop = 0;
+    int deckSize = 52;
     int count = 0;
     
     // Initialize deck
@@ -33,9 +36,10 @@ int main() {
             count++;
         }
     }
-
+    
     string command = "";
-    cout << ">  ";
+    cout << "> ";
+    
     while (cin >> command && command != "quit") {
         if (command == "print-deck") {
             printDeck(deck, deckTop, deckSize);
@@ -48,28 +52,20 @@ int main() {
         }
         else if (command == "deal-p") {
             if (deckSize > 0) {
-                p[pSize] = deck[deckTop]; // Copy top card to player
-                pSize++;                  // Increase player hand size
-                deckTop++;                // Move the top of the deck down
-                deckSize--;               // Decrease available cards
+                deal(deck, &deckTop, &deckSize, p, &pSize);
             }
         }
         else if (command == "deal-d") {
             if (deckSize > 0) {
-                d[dSize] = deck[deckTop]; // Copy top card to dealer
-                dSize++;                  // Increase dealer hand size
-                deckTop++;                // Move the top of the deck down
-                deckSize--;               // Decrease available cards
+                deal(deck, &deckTop, &deckSize, d, &dSize);
             }
         }
-        
-        cout << ">  ";
+        cout << "> ";
     }
-
+    
     delete[] p;
     delete[] d;
     delete[] deck;
-    
     return 0;
 }
 
@@ -91,4 +87,12 @@ void printHand(int* arr, int size) {
         cout << " ";
     }
     cout << "]" << endl;
+}
+
+// Moves a card from the top of the deck to a hand
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize) {
+    hand[*handSize] = deck[*deckTop];
+    (*handSize)++;
+    (*deckTop)++;
+    (*deckSize)--;
 }

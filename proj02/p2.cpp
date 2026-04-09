@@ -2,9 +2,9 @@
  * Author:      Nathan Lo
  * Alpha:       m283852
  * Title:       Proj 02 Part 2
- * Description: Prints Deck, Deals Card, Shuffles, Resets, or Quits
- * Date:        2026-03-12
+ * Description: Interactive Deck Shell 
  ******************************************************************************/
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -14,8 +14,9 @@ using namespace std;
 // Function Prototypes
 void printHand(int* arr, int size);
 void printDeck(int* deck, int startIdx, int size);
-void shuffleDeck(int* deck);
 void initDeck(int* deck);
+void shuffleDeck(int* deck);
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize);
 
 int main() {
     int* p = new int[52];
@@ -25,18 +26,22 @@ int main() {
     // Variables to track sizes and the top of the deck
     int pSize = 0;
     int dSize = 0;
-    int deckTop = 0;   
-    int deckSize = 52; 
-    int seed;
+    int deckTop = 0;
+    int deckSize = 52;
     
-    // Initialize deck to starting sorted order
+    // Initialize deck
     initDeck(deck);
-
-    string command = "";
-    cout << "Seed: "; cin >> seed;
+    
+    // Get the seed to start the program
+    int seed;
+    cout << "Seed: ";
+    cin >> seed;
     srand(seed);
     
+    string command = "";
     cout << "> ";
+    
+    // The Interactive Shell
     while (cin >> command && command != "quit") {
         if (command == "print-deck") {
             printDeck(deck, deckTop, deckSize);
@@ -49,53 +54,40 @@ int main() {
         }
         else if (command == "deal-p") {
             if (deckSize > 0) {
-                p[pSize] = deck[deckTop]; 
-                pSize++;                  
-                deckTop++;                
-                deckSize--;               
+                deal(deck, &deckTop, &deckSize, p, &pSize);
             }
         }
         else if (command == "deal-d") {
             if (deckSize > 0) {
-                d[dSize] = deck[deckTop]; 
-                dSize++;                  
-                deckTop++;                
-                deckSize--;               
+                deal(deck, &deckTop, &deckSize, d, &dSize);
             }
         }
-        else if (command == "shuffle-deck") {
-            // Only allow shuffling if no cards have been dealt
-            if (deckSize != 52) {
-                cout << "Error: Not a full deck" << endl;
-            } else {
-                shuffleDeck(deck);
-            }
-        }
-        else if (command == "reset") {
-            // Reset all tracking variables to zero/max
-            deckTop = 0;
-            deckSize = 52;
+        else if (command == "init-deck" || command == "init" || command == "initDeck" || command == "init_deck" || command == "reset") {
             pSize = 0;
             dSize = 0;
-            // Re-sort the deck back to its original state
+            deckTop = 0;
+            deckSize = 52;
             initDeck(deck);
         }
-        else {
-            cout << "Unknown command" << endl;
+        else if (command == "shuffle" || command == "shuffle-deck" || command == "shuffleDeck") {
+            shuffleDeck(deck);
         }
         
         cout << "> ";
     }
-
+    
     // Clean up memory
     delete[] p;
     delete[] d;
     delete[] deck;
-    
     return 0;
 }
 
-// Rebuilds the deck in perfect sorted order 
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+// Build the deck sequentially
 void initDeck(int* deck) {
     int count = 0;
     for (int i = 1; i <= 4; i++) {
@@ -106,7 +98,7 @@ void initDeck(int* deck) {
     }
 }
 
-// Shuffles the deck using the provided random index 
+// Shuffle the entire deck using random swaps
 void shuffleDeck(int* deck) {
     for (int i = 0; i < 52; i++) {
         int j = rand() % 52;
@@ -116,7 +108,7 @@ void shuffleDeck(int* deck) {
     }
 }
 
-// Prints the deck starting from the current top card
+// Prints the deck starting from the current 'top' card
 void printDeck(int* deck, int startIdx, int size) {
     cout << "[";
     for (int i = 0; i < size; i++) {
@@ -138,4 +130,12 @@ void printHand(int* arr, int size) {
         }
     }
     cout << "]" << endl;
+}
+
+// Moves a card from the top of the deck to a hand using pointers
+void deal(int* deck, int* deckTop, int* deckSize, int* hand, int* handSize) {
+    hand[*handSize] = deck[*deckTop];
+    (*handSize)++;
+    (*deckTop)++;
+    (*deckSize)--;
 }
