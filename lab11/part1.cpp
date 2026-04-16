@@ -22,7 +22,7 @@ int main() {
 
     ifstream fin(filename);
     if (!fin) {
-        cout << "Error: File " << filename << " not found!" << endl;
+        cout << "Error: File " << filename << " not found!\n";
         return 1;
     }
 
@@ -35,7 +35,7 @@ int main() {
         add2front(head, p);
     }
 
-    cout << "count is " << countNodes(head) << "\n";
+    cout << "Count is " << countNodes(head) << "\n";
     printPairs(head);
     cout << "\n";
 
