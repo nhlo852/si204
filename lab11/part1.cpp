@@ -22,7 +22,7 @@ int main() {
 
     ifstream fin(filename);
     if (!fin) {
-        cout << "Error: File not found!\n";
+        cout << "Error: File " << filename << " not found!" << endl;
         return 1;
     }
 
