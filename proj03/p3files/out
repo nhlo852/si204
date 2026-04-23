@@ -1,0 +1,4 @@
+Command '@valgrind' not found, did you mean:
+  command 'valgrind' from snap valgrind (3.26.0)
+  command 'valgrind' from deb valgrind (1:3.18.1-1ubuntu2)
+See 'snap info <snapname>' for additional versions.
