@@ -1,0 +1,4 @@
+N = 3
+Brown 2
+Jones 0
+Smith 5
