@@ -10,9 +10,10 @@ struct Node {
 };
 
 int main() {
-    string filename, namee;
-    int num, size, i = 0;
+    string filename, namee, junk1;
+    int num, size, i = 0, g = 0;
     char junk;
+    cout << "File: ";
     cin >> filename;
     ifstream fin(filename);
 
@@ -30,19 +31,21 @@ int main() {
         
     }
 
-    string cmd;
-    while (cin >> cmd && cmd != "quit") {
+    string cmd = "a";
+    while (cmd != "quit") {
         int val;
         string target;
-        cin >> val >> >> junk >> target;
+        cout << "> ";
+        cin >> cmd >> val >> junk1 >> target;
 
         if (cmd == "give") {
             for (int i = 0; i < size; i++) {
                 if (list[i].name == target) {
                     list[i].number += val;
                     cout << list[i].number << endl;
+                    g = -100;
                 }
-                else cout << "Name not found";
+                g++;
             }
         }
         else if (cmd == "take") {
@@ -50,10 +53,17 @@ int main() {
                 if (list[i].name == target) {
                     list[i].number -= val;
                     cout << list[i].number << endl;
+                    g = -100;
                 }
-                else cout << "Name not found";
+                g++;
             }
         }
+        if (g == size) cout << "Name not found";
+        g = 0;
+
+   
     }
+    delete [] list;
+    fin.close();
     return 0;
 }

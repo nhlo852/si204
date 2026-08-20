@@ -13,12 +13,12 @@ int sumOfCubes(int n) {
 int main() {
     int n;
     
-    cout << "Enter a n: ";
+    cout << "Enter n: ";
     cin >> n;
     
     int result = sumOfCubes(n);
     
-    cout << "The sum of cubes up to " << n << " is: " << result << endl;
+    cout << result << endl;
     
     return 0;
 }
