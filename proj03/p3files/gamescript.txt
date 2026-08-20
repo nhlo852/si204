@@ -1,0 +1,3 @@
+boardm283852.txt 2 0 points = 1000
+boardm283852.txt 3 1 points = 2500
+boardm283852.txt 5 2 points = 5000
